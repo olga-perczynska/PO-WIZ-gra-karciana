@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Interactivity;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PO_WIZ_gra_karciana;
 
@@ -11,16 +13,39 @@ public partial class graOczko : Window
     private int punktyGracza = 0;
     private int punktyKomputera = 0;
     private Random random = new Random();
+    private List<int> kartyGracza = new List<int>();
+    private List<int> kartyKomputer = new List<int>();
+
     public graOczko()
     {
         InitializeComponent();
     }
-    private void Dobierz_Click(object? sender, RoutedEventArgs e)
 
+    private void Rozdanie_Click(object? sender, RoutedEventArgs e)
+    {
+      
+        for(int i=0; i<2;i++)
+        {
+            int karta = random.Next(2, 12);
+            kartyGracza.Add(karta);
+            punktyGracza += karta;
+
+            int kartaKomputer = random.Next(2, 12);
+            kartyKomputer.Add(kartaKomputer);
+            punktyKomputera += karta;
+        }
+
+        GraczPunktyText.Text = "Karty gracza: " + string.Join(" ", kartyGracza);
+        KomputerPunktyText.Text = $"Karty krupiera: {kartyKomputer[0]}  zakryta ";
+
+
+    }
+    private void Dobierz_Click(object? sender, RoutedEventArgs e)
     {
         int karta = random.Next(2, 12);
+        kartyGracza.Add(karta);
         punktyGracza += karta;
-        GraczPunktyText.Text = $"Twoje punkty: {punktyGracza}";
+        GraczPunktyText.Text = "Karty gracza: " + string.Join(" ", kartyGracza);
 
         if (punktyGracza > 21)
         {
@@ -30,13 +55,17 @@ public partial class graOczko : Window
         }
     }
 
-    private void Pas_Click(object? sender, RoutedEventArgs e)
+    private async void Pas_Click(object? sender, RoutedEventArgs e)
     {
+        KomputerPunktyText.Text = "Karty krupiera: " + string.Join(" ", kartyKomputer);
 
         while (punktyKomputera < 17)
         {
+            await Task.Delay(3000);
             int karta = random.Next(2, 12);
+            kartyKomputer.Add(karta);
             punktyKomputera += karta;
+            KomputerPunktyText.Text = "Karty krupiera: " + string.Join(" ", kartyKomputer);
         }
 
         string wynik = "";

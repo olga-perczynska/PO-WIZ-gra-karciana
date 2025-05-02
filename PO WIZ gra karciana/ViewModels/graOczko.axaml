@@ -6,8 +6,10 @@
         x:Class="PO_WIZ_gra_karciana.graOczko"
         Title="graOczko">
 	<StackPanel Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
-		<TextBlock x:Name="GraczPunktyText" FontSize="20" Text="Twoje punkty: 0" />
-		<Button Content="Dobierz kartę" Click="Dobierz_Click" Margin="0,10"/>
+		<TextBlock x:Name="KomputerPunktyText" FontSize="20" Text="" />
+		<TextBlock x:Name="GraczPunktyText" FontSize="20" Text="" />
+		<Button Content="Pierwsze rozdanie" Click="Rozdanie_Click" Margin="0,10"/>
+		<Button Content="Dobierz kartę" Click="Dobierz_Click" Margin="0,10" />
 		<Button Content="Pas" Click="Pas_Click" />
 		<TextBlock x:Name="WynikText" FontSize="16" Margin="0,20" Text="" />
 	</StackPanel>
