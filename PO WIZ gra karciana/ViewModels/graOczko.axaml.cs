@@ -5,69 +5,162 @@ using Avalonia.Interactivity;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+using Avalonia.Platform;
 
 namespace PO_WIZ_gra_karciana;
 
 public partial class graOczko : Window
 {
+    public class Karta
+    {
+        public string Figura { get; set; }  = "";
+        public string Kolor { get; set; }   = "";
+        public int Wartosc { get; set; }  = 0;
+
+    }
+
+
     private int punktyGracza = 0;
     private int punktyKomputera = 0;
     private Random random = new Random();
-    private List<int> kartyGracza = new List<int>();
-    private List<int> kartyKomputer = new List<int>();
+    private List<Karta> kartyGracza = new List<Karta>();
+    private List<Karta> kartyKomputer = new List<Karta>();
+    private List<Karta> taliaKart;
 
     public graOczko()
     {
         InitializeComponent();
     }
 
-    private void Rozdanie_Click(object? sender, RoutedEventArgs e)
+    private Image WczytajObrazKarty(Karta karta)
     {
-      
-        for(int i=0; i<2;i++)
-        {
-            int karta = random.Next(2, 12);
-            kartyGracza.Add(karta);
-            punktyGracza += karta;
+        var uri = new Uri($"avares://PO_WIZ_gra_karciana/Assets/Karty/{karta.Figura}_of_{karta.Kolor}.png");
+        var stream = AssetLoader.Open(uri); 
 
-            int kartaKomputer = random.Next(2, 12);
-            kartyKomputer.Add(kartaKomputer);
-            punktyKomputera += karta;
+        return new Image
+        {
+            Width = 80,
+            Height = 120,
+            Source = new Avalonia.Media.Imaging.Bitmap(stream),
+            Margin = new Thickness(5)
+        };
+    }
+
+
+    private void InicjalizujTalie()
+    {
+        string[] figury = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "ace" };
+        string[] kolory = { "hearts", "diamonds", "clubs", "spades" };  
+
+        taliaKart = new List<Karta>();
+
+        foreach (var kolor in kolory)
+        {
+            foreach (var figura in figury)
+            {
+                int wartosc = figura switch
+                {
+                    "jack" => 10,
+                    "queen" => 10,
+                    "king" => 10,
+                    "ace" => 11,
+                    _ => int.Parse(figura)
+                };
+
+                taliaKart.Add(new Karta { Figura = figura, Kolor = kolor, Wartosc = wartosc });
+            }
         }
 
-        GraczPunktyText.Text = "Karty gracza: " + string.Join(" ", kartyGracza);
-        KomputerPunktyText.Text = $"Karty krupiera: {kartyKomputer[0]}  zakryta ";
+        taliaKart = taliaKart.OrderBy(x => random.Next()).ToList();
+    }
+
+
+    private void Rozdanie_Click(object? sender, RoutedEventArgs e)
+    {
+        TuraText.Text = "Tura: GRACZA";
+
+        InicjalizujTalie();
+
+        GraczKartyPanel.Children.Clear();
+        KomputerKartyPanel.Children.Clear();
+
+        for (int i = 0; i < 2; i++)
+        {
+            var kartaGracza = taliaKart[0];
+            taliaKart.RemoveAt(0);
+            kartyGracza.Add(kartaGracza);
+            punktyGracza += kartaGracza.Wartosc;
+            GraczKartyPanel.Children.Add(WczytajObrazKarty(kartaGracza));
+
+            var kartaKomputer = taliaKart[0];
+            taliaKart.RemoveAt(0);
+            kartyKomputer.Add(kartaKomputer);
+            punktyKomputera += kartaKomputer.Wartosc;
+
+            if (i == 0)
+            {
+                KomputerKartyPanel.Children.Add(WczytajObrazKarty(kartaKomputer));
+            }
+            else
+            {
+                var uriZakryta = new Uri("avares://PO_WIZ_gra_karciana/Assets/Karty/zakryta.png");
+                var streamZakryta = Avalonia.Platform.AssetLoader.Open(uriZakryta);
+
+                KomputerKartyPanel.Children.Add(new Image
+                {
+                    Width = 80,
+                    Height = 120,
+                    Source = new Avalonia.Media.Imaging.Bitmap(streamZakryta),
+                    Margin = new Thickness(5)
+                });
+            }
+        }
+
+
 
 
     }
     private void Dobierz_Click(object? sender, RoutedEventArgs e)
     {
-        int karta = random.Next(2, 12);
-        kartyGracza.Add(karta);
-        punktyGracza += karta;
-        GraczPunktyText.Text = "Karty gracza: " + string.Join(" ", kartyGracza);
+        var kartaGracza = taliaKart[0];  
+        taliaKart.RemoveAt(0);
+        kartyGracza.Add(kartaGracza);
+        punktyGracza += kartaGracza.Wartosc;
+        GraczKartyPanel.Children.Add(WczytajObrazKarty(kartaGracza));
 
         if (punktyGracza > 21)
         {
             WynikText.Text = $"Przegra³eœ! Masz {punktyGracza} punktów.";
 
-            //ZablokujPrzyciski();
+           // ZablokujPrzyciski();
         }
     }
 
     private async void Pas_Click(object? sender, RoutedEventArgs e)
     {
-        KomputerPunktyText.Text = "Karty krupiera: " + string.Join(" ", kartyKomputer);
+        // ZablokujPrzyciski();
+        TuraText.Text = "Tura: KRUPIERA";
+        DobieraText.Text = "Krupier dobiera";
+
+        KomputerKartyPanel.Children.Clear();
+        foreach (var karta in kartyKomputer)
+        {
+            KomputerKartyPanel.Children.Add(WczytajObrazKarty(karta));
+        }
 
         while (punktyKomputera < 17)
         {
             await Task.Delay(3000);
-            int karta = random.Next(2, 12);
-            kartyKomputer.Add(karta);
-            punktyKomputera += karta;
-            KomputerPunktyText.Text = "Karty krupiera: " + string.Join(" ", kartyKomputer);
+
+            var kartaKomputer = taliaKart[0];
+            taliaKart.RemoveAt(0);
+            kartyKomputer.Add(kartaKomputer);
+            punktyKomputera += kartaKomputer.Wartosc;
+            KomputerKartyPanel.Children.Add(WczytajObrazKarty(kartaKomputer));
         }
 
+        DobieraText.Text = "";
         string wynik = "";
 
         if (punktyKomputera > 21 || punktyGracza > punktyKomputera)
@@ -79,7 +172,6 @@ public partial class graOczko : Window
 
         WynikText.Text = $"Komputer: {punktyKomputera} pkt — {wynik}";
 
-        //ZablokujPrzyciski();
     }
 
     private void ZablokujPrzyciski()

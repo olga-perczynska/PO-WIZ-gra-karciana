@@ -2,15 +2,56 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        Background="DarkGreen"
         x:Class="PO_WIZ_gra_karciana.graOczko"
-        Title="graOczko">
-	<StackPanel Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
-		<TextBlock x:Name="KomputerPunktyText" FontSize="20" Text="" />
-		<TextBlock x:Name="GraczPunktyText" FontSize="20" Text="" />
-		<Button Content="Pierwsze rozdanie" Click="Rozdanie_Click" Margin="0,10"/>
-		<Button Content="Dobierz kartę" Click="Dobierz_Click" Margin="0,10" />
-		<Button Content="Pas" Click="Pas_Click" />
-		<TextBlock x:Name="WynikText" FontSize="16" Margin="0,20" Text="" />
-	</StackPanel>
+        Title="Blackjack"
+		Width="800" Height="600"
+        MinWidth="800" MinHeight="600">
+
+	<Grid RowDefinitions="Auto,2*,Auto" Margin="20">
+
+		<!-- Górna 1/3 -->
+		<StackPanel Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+			<TextBlock x:Name="TuraText" FontSize="16" Margin="0,20" Text="" Foreground="White"/>
+			<TextBlock x:Name="DobieraText" FontSize="16" Margin="0,0,0,10" Text="" Foreground="White"/>
+		</StackPanel>
+
+		<!-- Środkowa część - karty -->
+		<StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+			<StackPanel x:Name="KomputerKartyPanel" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10"/>
+			<StackPanel x:Name="GraczKartyPanel" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10"/>
+			<TextBlock x:Name="WynikText" FontSize="16" Margin="0,20" Text="" Foreground="White" HorizontalAlignment="Center"/>
+		</StackPanel>
+
+		<!-- Dolna część - przyciski -->
+		<StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0">
+			<Button Content="Pierwsze rozdanie"
+                    Click="Rozdanie_Click"
+                    Margin="0,10"
+                    Background="ForestGreen"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    FontSize="16"
+                    HorizontalAlignment="Center"/>
+
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+				<Button Content="Dobierz kartę"
+                        Click="Dobierz_Click"
+                        Margin="5"
+                        Background="ForestGreen"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        FontSize="16"/>
+				<Button Content="Pas"
+                        Click="Pas_Click"
+                        Margin="5"
+                        Background="ForestGreen"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        FontSize="16"/>
+			</StackPanel>
+		</StackPanel>
+
+	</Grid>
 </Window>

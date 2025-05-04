@@ -6,6 +6,7 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+	  <AssemblyName>PO_WIZ_gra_karciana</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,4 +26,8 @@
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
   </ItemGroup>
+	<ItemGroup>
+		<AvaloniaResource Include="Assets\Karty\**\*.png" />
+	</ItemGroup>
+
 </Project>
