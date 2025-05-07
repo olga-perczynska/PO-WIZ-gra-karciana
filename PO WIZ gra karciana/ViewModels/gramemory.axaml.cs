@@ -1,4 +1,4 @@
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using System;
 using System.Collections.Generic;
@@ -12,11 +12,12 @@ namespace PO_WIZ_gra_karciana.Views
         private Dictionary<Button, string> _cardMap = new();
         private List<Button> _flipped = new();
         private int _moves = 0;
-
-        public gramemory()
+        private MainWindow _mainWindow;
+        public gramemory(MainWindow mainWindow)
         {
             InitializeComponent();
             InitGame();
+            _mainWindow = mainWindow;
         }
 
         private void InitGame()
@@ -92,6 +93,8 @@ namespace PO_WIZ_gra_karciana.Views
                     await Task.Delay(2000);
                     dialog.Close();
                     InitGame();
+                    string wyniko = "Wygrał gracz: Jacek";  
+                    _mainWindow?.ZapiszHistorieGry("Memory", wyniko);
                 }
             }
         }

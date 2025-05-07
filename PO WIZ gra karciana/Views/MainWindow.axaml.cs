@@ -18,7 +18,7 @@ namespace PO_WIZ_gra_karciana.Views
         }
         private void OpenMemoryGame_Click(object? sender, RoutedEventArgs e)
         {
-            var memoryWindow = new Views.gramemory();
+            var memoryWindow = new Views.gramemory(this);
             memoryWindow.Show();
         }
 
