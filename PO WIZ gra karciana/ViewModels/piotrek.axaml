@@ -1,0 +1,67 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="PO_WIZ_gra_karciana.Views.piotrek"
+        Width="800" Height="600" Title="Piotruś">
+
+	<Window.Background>
+		<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+			<GradientStop Color="#87CEEB" Offset="0"/>
+			<GradientStop Color="#FFE4B5" Offset="1"/>
+		</LinearGradientBrush>
+	</Window.Background>
+
+	<Window.Styles>
+		<Style Selector="Button">
+			<Setter Property="FontSize" Value="14"/>
+			<Setter Property="Background" Value="Crimson"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="BorderBrush" Value="Black"/>
+			<Setter Property="BorderThickness" Value="2"/>
+			<Setter Property="CornerRadius" Value="10"/>
+			<Setter Property="Width" Value="60"/>
+			<Setter Property="Height" Value="80"/>
+			<Setter Property="Margin" Value="4"/>
+		</Style>
+
+		<Style Selector="TextBlock">
+			<Setter Property="FontSize" Value="18"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="Foreground" Value="Black"/>
+		</Style>
+	</Window.Styles>
+
+	<Grid Margin="10">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<TextBlock x:Name="StatusLabel"
+                   Text="Status gry"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="22"
+                   Grid.Row="0"/>
+
+		<StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
+			<TextBlock Text="Gracz 1:" HorizontalAlignment="Center" Margin="0,5"/>
+			<StackPanel x:Name="Player1Panel"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Spacing="6"
+                        Margin="0,5"/>
+		</StackPanel>
+
+		<StackPanel Grid.Row="3" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+			<TextBlock Text="Gracz 2:" HorizontalAlignment="Center" Margin="0,5"/>
+			<StackPanel x:Name="Player2Panel"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Spacing="6"
+                        Margin="0,5"/>
+		</StackPanel>
+
+	</Grid>
+</Window>

@@ -10,7 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 
@@ -28,6 +27,27 @@
   </ItemGroup>
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\Karty\**\*.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<AvaloniaResource Include="Assets\NewFolder\*.png" />
+	</ItemGroup>
+	<ItemGroup>
+	  <AvaloniaResource Remove="Assets\NewFolder\**" />
+	  <AvaloniaXaml Remove="Assets\NewFolder\**" />
+	  <Compile Remove="Assets\NewFolder\**" />
+	  <EmbeddedResource Remove="Assets\NewFolder\**" />
+	  <None Remove="Assets\NewFolder\**" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="ViewModels\HistoriaWindow.axaml.cs">
+	    <DependentUpon>HistoriaWindow.axaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewModels\piotrek.axaml.cs">
+	    <DependentUpon>piotrek.axaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ViewModels\gramemory.axaml.cs">
+	    <DependentUpon>gramemory.axaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 </Project>

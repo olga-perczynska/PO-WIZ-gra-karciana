@@ -1,0 +1,16 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="PO_WIZ_gra_karciana.Views.gramemory"
+        Width="400" Height="450"
+        Title="Gra Memory">
+
+	<DockPanel>
+		<TextBlock x:Name="MovesLabel"
+                   DockPanel.Dock="Top"
+                   FontSize="16"
+                   Margin="10"
+                   Text="Ruchy: 0" />
+
+		<UniformGrid x:Name="CardGrid" Columns="4" Rows="4" Margin="10"/>
+	</DockPanel>
+</Window>

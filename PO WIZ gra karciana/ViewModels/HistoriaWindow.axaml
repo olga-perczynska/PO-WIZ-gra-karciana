@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:PO_WIZ_gra_karciana.Models"
+        x:Class="PO_WIZ_gra_karciana.Views.HistoriaWindow"
+        Width="400" Height="300"
+        Title="Historia Gier">
+	<Grid>
+		<ListBox x:Name="HistoriaListBox" Margin="10">
+			<ListBox.ItemTemplate>
+				<DataTemplate DataType="{x:Type models:GraHistoryczna}">
+					<StackPanel>
+						<TextBlock Text="{Binding Data}" FontWeight="Bold"/>
+						<TextBlock Text="{Binding Godzina}" />
+						<TextBlock Text="{Binding Gra}" />
+						<TextBlock Text="{Binding Wynik}" FontStyle="Italic" Margin="0,0,0,10"/>
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+	</Grid>
+</Window>

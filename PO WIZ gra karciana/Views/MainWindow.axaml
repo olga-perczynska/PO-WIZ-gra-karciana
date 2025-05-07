@@ -10,7 +10,19 @@
         Title="PO_WIZ_gra_karciana">
 
 	<StackPanel Margin="150" VerticalAlignment="Top" HorizontalAlignment="Center">
-		<Button Content="Gra w oczko" Click="OnOpenNewWindowClick"/>
+		<Button Content="Gra w oczko"  Background="ForestGreen"  Foreground="White"  FontWeight="Bold"
+    FontSize="16"  Click="OnOpenNewWindowClick"/>
+		<Button Content="Gra Memory"  Background="ForestGreen"  Foreground="White"  FontWeight="Bold"
+    FontSize="16" Click="OpenMemoryGame_Click"/>
+		<Button Content="Piotruś"  Background="ForestGreen"  Foreground="White"  FontWeight="Bold"
+    FontSize="16" Click="OpenPiotrusGame_Click"/>
+	<Button Content="Historia Gier" Name="HistoriaButton"
+    Margin="1"
+    Background="ForestGreen"
+    Foreground="White"
+    FontWeight="Bold"
+    FontSize="16"
+    HorizontalAlignment="Center"/>
 	</StackPanel>
 
 </Window>

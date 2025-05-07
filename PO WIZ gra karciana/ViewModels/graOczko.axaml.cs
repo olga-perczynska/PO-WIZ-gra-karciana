@@ -7,11 +7,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Avalonia.Platform;
-
+using PO_WIZ_gra_karciana.Models;
+using PO_WIZ_gra_karciana.Views;
 namespace PO_WIZ_gra_karciana;
 
 public partial class graOczko : Window
 {
+    
     public class Karta
     {
         public string Figura { get; set; }  = "";
@@ -20,6 +22,8 @@ public partial class graOczko : Window
 
     }
 
+    private List<string> gracze;
+    private int maxGraczy;
 
     private int punktyGracza = 0;
     private int punktyKomputera = 0;
@@ -27,10 +31,12 @@ public partial class graOczko : Window
     private List<Karta> kartyGracza = new List<Karta>();
     private List<Karta> kartyKomputer = new List<Karta>();
     private List<Karta> taliaKart;
+    private MainWindow _mainWindow;
 
-    public graOczko()
+    public graOczko(MainWindow mainWindow)
     {
         InitializeComponent();
+        _mainWindow = mainWindow;
     }
 
     private Image WczytajObrazKarty(Karta karta)
@@ -171,7 +177,8 @@ public partial class graOczko : Window
             wynik = "Przegra³eœ!";
 
         WynikText.Text = $"Komputer: {punktyKomputera} pkt — {wynik}";
-
+        string wyniko = "Wygra? gracz: Piotrek";  // lub np. "Remis", "Gracz przegra?", itd.
+        _mainWindow?.ZapiszHistorieGry("Oczko", wyniko);
     }
 
     private void ZablokujPrzyciski()
