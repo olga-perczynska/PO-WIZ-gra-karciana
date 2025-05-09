@@ -1,0 +1,10 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="PO_WIZ_gra_karciana.Views.GameOverWindow"
+        Title="Koniec Gry" Width="300" Height="200">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+        <TextBlock x:Name="ResultText" FontSize="16" TextAlignment="Center" TextWrapping="Wrap"/>
+        <Button Content="Zagraj ponownie" Click="OnRestartClick"/>
+        <Button Content="Wyjdź" Click="OnExitClick"/>
+    </StackPanel>
+</Window>

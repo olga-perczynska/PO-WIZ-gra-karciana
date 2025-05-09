@@ -9,17 +9,16 @@ using System.Linq;
 using Avalonia.Platform;
 using PO_WIZ_gra_karciana.Models;
 using PO_WIZ_gra_karciana.Views;
+
 namespace PO_WIZ_gra_karciana;
 
 public partial class graOczko : Window
 {
-    
     public class Karta
     {
-        public string Figura { get; set; }  = "";
-        public string Kolor { get; set; }   = "";
-        public int Wartosc { get; set; }  = 0;
-
+        public string Figura { get; set; } = "";
+        public string Kolor { get; set; } = "";
+        public int Wartosc { get; set; } = 0;
     }
 
     private List<string> gracze;
@@ -42,7 +41,7 @@ public partial class graOczko : Window
     private Image WczytajObrazKarty(Karta karta)
     {
         var uri = new Uri($"avares://PO_WIZ_gra_karciana/Assets/Karty/{karta.Figura}_of_{karta.Kolor}.png");
-        var stream = AssetLoader.Open(uri); 
+        var stream = AssetLoader.Open(uri);
 
         return new Image
         {
@@ -53,11 +52,10 @@ public partial class graOczko : Window
         };
     }
 
-
     private void InicjalizujTalie()
     {
         string[] figury = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "ace" };
-        string[] kolory = { "hearts", "diamonds", "clubs", "spades" };  
+        string[] kolory = { "hearts", "diamonds", "clubs", "spades" };
 
         taliaKart = new List<Karta>();
 
@@ -81,15 +79,21 @@ public partial class graOczko : Window
         taliaKart = taliaKart.OrderBy(x => random.Next()).ToList();
     }
 
-
     private void Rozdanie_Click(object? sender, RoutedEventArgs e)
     {
+        this.FindControl<Button>("RozdanieButton").IsEnabled = false;
+
         TuraText.Text = "Tura: GRACZA";
 
         InicjalizujTalie();
 
         GraczKartyPanel.Children.Clear();
         KomputerKartyPanel.Children.Clear();
+
+        punktyGracza = 0;
+        punktyKomputera = 0;
+        kartyGracza.Clear();
+        kartyKomputer.Clear();
 
         for (int i = 0; i < 2; i++)
         {
@@ -122,14 +126,11 @@ public partial class graOczko : Window
                 });
             }
         }
-
-
-
-
     }
-    private void Dobierz_Click(object? sender, RoutedEventArgs e)
+
+    private async void Dobierz_Click(object? sender, RoutedEventArgs e)
     {
-        var kartaGracza = taliaKart[0];  
+        var kartaGracza = taliaKart[0];
         taliaKart.RemoveAt(0);
         kartyGracza.Add(kartaGracza);
         punktyGracza += kartaGracza.Wartosc;
@@ -137,15 +138,26 @@ public partial class graOczko : Window
 
         if (punktyGracza > 21)
         {
-            WynikText.Text = $"Przegra³eœ! Masz {punktyGracza} punktów.";
+            var gameOverWindow = new GameOverWindow($"Gracz: {punktyGracza} pkt\nPrzegra³eœ!");
+            var result = await gameOverWindow.ShowDialog<string>(this);
 
-           // ZablokujPrzyciski();
+            _mainWindow?.ZapiszHistorieGry("Oczko", "Gracz przegra³");
+
+            if (result == "restart")
+            {
+                RestartGame();
+            }
+            else if (result == "exit")
+            {
+                Close();
+            }
         }
     }
 
+
     private async void Pas_Click(object? sender, RoutedEventArgs e)
     {
-        // ZablokujPrzyciski();
+        ZablokujPrzyciski();
         TuraText.Text = "Tura: KRUPIERA";
         DobieraText.Text = "Krupier dobiera";
 
@@ -169,21 +181,53 @@ public partial class graOczko : Window
         DobieraText.Text = "";
         string wynik = "";
 
-        if (punktyKomputera > 21 || punktyGracza > punktyKomputera)
+        if (punktyGracza > 21)
+            wynik = "Przegra³eœ!";
+        else if (punktyKomputera > 21 || punktyGracza > punktyKomputera)
             wynik = "Wygra³eœ!";
         else if (punktyGracza == punktyKomputera)
-            wynik = "Remis!";
+            wynik = "Przegraleœ";
         else
             wynik = "Przegra³eœ!";
 
-        WynikText.Text = $"Komputer: {punktyKomputera} pkt — {wynik}";
-        string wyniko = "Wygra? gracz: Piotrek";  // lub np. "Remis", "Gracz przegra?", itd.
-        _mainWindow?.ZapiszHistorieGry("Oczko", wyniko);
+        _mainWindow?.ZapiszHistorieGry("Oczko", $"Gracz: {punktyGracza}, Komputer: {punktyKomputera}, {wynik}");
+
+        await Task.Delay(3000);
+
+        var gameOverWindow = new GameOverWindow($"Gracz: {punktyGracza} pkt\nKomputer: {punktyKomputera} pkt\n{wynik}");
+        var result = await gameOverWindow.ShowDialog<string>(this);
+
+        if (result == "restart")
+        {
+            RestartGame();
+        }
+        else if (result == "exit")
+        {
+            Close();
+        }
     }
 
     private void ZablokujPrzyciski()
     {
-        this.FindControl<Button>("Dobierz_Click").IsEnabled = false;
-        this.FindControl<Button>("Pas_Click").IsEnabled = false;
+        this.FindControl<Button>("DobierzButton").IsEnabled = false;
+        this.FindControl<Button>("PasButton").IsEnabled = false;
+    }
+
+    private void RestartGame()
+    {
+        punktyGracza = 0;
+        punktyKomputera = 0;
+        kartyGracza.Clear();
+        kartyKomputer.Clear();
+        GraczKartyPanel.Children.Clear();
+        KomputerKartyPanel.Children.Clear();
+        WynikText.Text = "";
+        TuraText.Text = "Tura: GRACZA";
+        DobieraText.Text = "";
+        InicjalizujTalie();
+
+        this.FindControl<Button>("DobierzButton").IsEnabled = true;
+        this.FindControl<Button>("PasButton").IsEnabled = true;
+        this.FindControl<Button>("RozdanieButton").IsEnabled = true;
     }
 }
