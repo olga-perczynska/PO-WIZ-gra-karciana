@@ -47,10 +47,24 @@ namespace PO_WIZ_gra_karciana.Views
                 Data = DateTime.Now.ToString("dd-MM-yyyy"),
                 Godzina = DateTime.Now.ToString("HH:mm:ss"),
                 Gra = gra,
-               Wynik = wynik
+                Wynik = $"{NickGracza}: {wynik}"
             };
 
             historiaGier.Add(graHistoryczna);
         }
+
+
+        public string NickGracza { get; set; } = "Gracz1";
+
+        private async void LoginButton_Click(object? sender, RoutedEventArgs e)
+        {
+            var login = new LoginWindow();
+            await login.ShowDialog(this);
+
+            NickGracza = login.Nick;
+            Console.WriteLine($"Zalogowano jako: {NickGracza}");
+        }
+
+
     }
 }

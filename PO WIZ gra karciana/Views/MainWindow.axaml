@@ -3,26 +3,37 @@
         xmlns:vm="using:PO_WIZ_gra_karciana.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d"
         x:Class="PO_WIZ_gra_karciana.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="PO_WIZ_gra_karciana">
+        Title="PO_WIZ_gra_karciana"
+        Width="600" Height="500"
+        Background="#1e1e2f"
+        FontFamily="Segoe UI"
+        FontSize="16">
 
-	<StackPanel Margin="150" VerticalAlignment="Top" HorizontalAlignment="Center">
-		<Button Content="Gra w oczko"  Background="ForestGreen"  Foreground="White"  FontWeight="Bold"
-    FontSize="16"  Click="OnOpenNewWindowClick"/>
-		<Button Content="Gra Memory"  Background="ForestGreen"  Foreground="White"  FontWeight="Bold"
-    FontSize="16" Click="OpenMemoryGame_Click"/>
-		<Button Content="Piotruś"  Background="ForestGreen"  Foreground="White"  FontWeight="Bold"
-    FontSize="16" Click="OpenPiotrusGame_Click"/>
-	<Button Content="Historia Gier" Name="HistoriaButton"
-    Margin="1"
-    Background="ForestGreen"
-    Foreground="White"
-    FontWeight="Bold"
-    FontSize="16"
-    HorizontalAlignment="Center"/>
-	</StackPanel>
+	<Border Padding="30" Background="#2b2b3d" CornerRadius="10">
+		<StackPanel Spacing="20" HorizontalAlignment="Center" VerticalAlignment="Center">
 
+			<TextBlock Text="Wybierz grę" FontSize="24" Foreground="#eeeeee" FontWeight="Bold" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+
+			<Button Content="Blackjack" Width="200" Background="#4caf50" Foreground="White" FontWeight="SemiBold"
+                    Click="OnOpenNewWindowClick" HorizontalAlignment="Center"/>
+
+			<Button Content="Gra Memory" Width="200" Background="#2196f3" Foreground="White" FontWeight="SemiBold"
+                    Click="OpenMemoryGame_Click" HorizontalAlignment="Center"/>
+
+			<Button Content="Piotruś" Width="200" Background="#9c27b0" Foreground="White" FontWeight="SemiBold"
+                    Click="OpenPiotrusGame_Click" HorizontalAlignment="Center"/>
+
+			<Button Content="Historia Gier" Name="HistoriaButton" Width="200"
+                    Background="#ff9800" Foreground="White" FontWeight="SemiBold"
+                    Click="OtworzHistorieGier_Click" HorizontalAlignment="Center"/>
+
+			<Button Content="Zaloguj się" Width="200" Background="#607d8b" Foreground="White" FontWeight="SemiBold"
+                    Click="LoginButton_Click" HorizontalAlignment="Center"/>
+
+		</StackPanel>
+	</Border>
 </Window>

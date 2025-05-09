@@ -1,22 +1,23 @@
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
 using Avalonia.Interactivity;
 
 namespace PO_WIZ_gra_karciana.Views
 {
     public partial class GameOverWindow : Window
     {
-        public GameOverWindow(string wynik)
+        public GameOverWindow(string message)
         {
             InitializeComponent();
-            ResultText.Text = wynik;
+            this.FindControl<TextBlock>("MessageText").Text = message;
         }
 
-        private void OnRestartClick(object? sender, RoutedEventArgs e)
+        private void Restart_Click(object? sender, RoutedEventArgs e)
         {
             Close("restart");
         }
 
-        private void OnExitClick(object? sender, RoutedEventArgs e)
+        private void Exit_Click(object? sender, RoutedEventArgs e)
         {
             Close("exit");
         }

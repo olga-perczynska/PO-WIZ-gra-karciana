@@ -190,9 +190,9 @@ public partial class graOczko : Window
         else
             wynik = "Przegra³eœ!";
 
-        _mainWindow?.ZapiszHistorieGry("Oczko", $"Gracz: {punktyGracza}, Komputer: {punktyKomputera}, {wynik}");
+        _mainWindow?.ZapiszHistorieGry("Blackjack", $"Gracz: {punktyGracza}, Komputer: {punktyKomputera}, {wynik}");
 
-        await Task.Delay(3000);
+        await Task.Delay(2000);
 
         var gameOverWindow = new GameOverWindow($"Gracz: {punktyGracza} pkt\nKomputer: {punktyKomputera} pkt\n{wynik}");
         var result = await gameOverWindow.ShowDialog<string>(this);
