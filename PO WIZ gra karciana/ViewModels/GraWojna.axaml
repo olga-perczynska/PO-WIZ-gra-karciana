@@ -1,11 +1,37 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="PO_WIZ_gra_karciana.GraWojna"
-        Width="600" Height="400"
-        Title="Gra w Wojne">
+        Width="600" Height="500"
+        Title="Gra w Wojnê">
 
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
 
- 
-            
-   
+        <TextBlock x:Name="StatusText"
+                   Text="Kliknij, by zagraæ rundê"
+                   FontSize="20"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,10" />
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="60">
+
+            <StackPanel>
+                <TextBlock Text="Gracz:" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <Image x:Name="PlayerImage" Width="100" Height="145"/>
+                <TextBlock x:Name="PlayerPoints" Text="Karty: 26" HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Komputer:" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <Image x:Name="ComputerImage" Width="100" Height="145"/>
+                <TextBlock x:Name="ComputerPoints" Text="Karty: 26" HorizontalAlignment="Center"/>
+            </StackPanel>
+
+        </StackPanel>
+
+        <Button Content="Zagraj rundê"
+                Width="150"
+                Click="OnPlayClicked"
+                HorizontalAlignment="Center"
+                Margin="0,20,0,0" />
+    </StackPanel>
 </Window>
