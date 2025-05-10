@@ -48,6 +48,12 @@
 	  <Compile Update="ViewModels\gramemory.axaml.cs">
 	    <DependentUpon>gramemory.axaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="ViewModels\GraWojna.axaml.cs">
+	    <DependentUpon>GraWojna.axaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<AvaloniaResource Include="Assets\Karty\**\*.png" />
 	</ItemGroup>
 
 </Project>

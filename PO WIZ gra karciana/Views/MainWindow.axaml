@@ -27,12 +27,18 @@
 			<Button Content="Piotruś" Width="200" Background="#9c27b0" Foreground="White" FontWeight="SemiBold"
                     Click="OpenPiotrusGame_Click" HorizontalAlignment="Center"/>
 
+			<Button Content="Wojna" Width="200" Background="#40E0D0" Foreground="White" FontWeight="SemiBold"
+		        Click="OpenGraWojnaClick" HorizontalAlignment="Center"/>
+			
 			<Button Content="Historia Gier" Name="HistoriaButton" Width="200"
                     Background="#ff9800" Foreground="White" FontWeight="SemiBold"
                     Click="OtworzHistorieGier_Click" HorizontalAlignment="Center"/>
 
 			<Button Content="Zaloguj się" Width="200" Background="#607d8b" Foreground="White" FontWeight="SemiBold"
                     Click="LoginButton_Click" HorizontalAlignment="Center"/>
+			
+	
+
 
 		</StackPanel>
 	</Border>
