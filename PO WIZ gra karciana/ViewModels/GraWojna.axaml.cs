@@ -19,7 +19,7 @@ public partial class GraWojna : Window
     {
         InitializeComponent();
         InitDecks();
-        _ = PlayRoundAsync(); // pierwsza runda automatycznie
+        _ = PlayRoundAsync(); 
     }
 
     private void InitDecks()
@@ -95,7 +95,7 @@ public partial class GraWojna : Window
         {
             StatusText.Text = $"⚔️ WOJNA! Obaj gracze zagrali {FormatCard(playerCard)}!";
             UpdatePoints();
-            await Task.Delay(800); // daj czas na wyświetlenie komunikatu
+            await Task.Delay(800); 
             ResolveWar(pile);
             return;
         }
@@ -175,8 +175,8 @@ public partial class GraWojna : Window
 
     private Bitmap LoadImage(string rawCard)
     {
-        string[] parts = rawCard.Split('_'); // np. 14_ace_of_spades
-        string fileName = $"{parts[1]}_of_{parts.Last()}.png"; // ace_of_spades
+        string[] parts = rawCard.Split('_'); 
+        string fileName = $"{parts[1]}_of_{parts.Last()}.png"; 
         var uri = new Uri($"avares://PO_WIZ_gra_karciana/Assets/Karty/{fileName}");
         return new Bitmap(AssetLoader.Open(uri));
     }
@@ -184,8 +184,8 @@ public partial class GraWojna : Window
     private string FormatCard(string rawCard)
     {
         var parts = rawCard.Split('_');
-        string val = parts[1].ToUpper();   // JACK, 10, ACE
-        string suit = parts.Last().ToUpper(); // HEARTS, CLUBS
+        string val = parts[1].ToUpper();   
+        string suit = parts.Last().ToUpper(); 
         return $"{val} of {suit}";
     }
 
