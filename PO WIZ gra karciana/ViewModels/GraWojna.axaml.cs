@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using PO_WIZ_gra_karciana.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +11,20 @@ namespace PO_WIZ_gra_karciana;
 
 public partial class GraWojna : Window
 {
+    private MainWindow _mainWindow;
+
     private Queue<string> _playerDeck = new();
     private Queue<string> _computerDeck = new();
+    private MainWindow? mainWindow;
     private readonly List<string> _allCards = new();
     private readonly Random _rng = new();
 
     public GraWojna()
     {
         InitializeComponent();
+        _mainWindow = mainWindow;
         InitDecks();
-        _ = PlayRoundAsync(); 
+        _ = PlayRoundAsync();
     }
 
     private void InitDecks()
@@ -129,21 +134,22 @@ public partial class GraWojna : Window
         int cVal = GetCardValue(finalC);
         int zdobyte = pile.Count;
 
-        if (pVal > cVal)
+        if (_playerDeck.Count == 0)
         {
-            StatusText.Text = $"🟢 Gracz wygrał wojnę kartą {FormatCard(finalP)} i zdobył {zdobyte} kart!";
-            AddToWinner(_playerDeck, pile);
+            StatusText.Text = "💀 Gracz przegrał – komputer wygrał grę!";
+            UpdatePoints();
+            _mainWindow?.ZapiszHistorieGry("Wojna", "Komputer wygrał");
+            return;
         }
-        else if (pVal < cVal)
+
+        if (_computerDeck.Count == 0)
         {
-            StatusText.Text = $"🔴 Komputer wygrał wojnę kartą {FormatCard(finalC)} i zdobył {zdobyte} kart!";
-            AddToWinner(_computerDeck, pile);
+            StatusText.Text = "🎉 Gracz wygrał grę!";
+            UpdatePoints();
+            _mainWindow?.ZapiszHistorieGry("Wojna", "Gracz wygrał");
+            return;
         }
-        else
-        {
-            StatusText.Text = "💥 Remis podczas wojny – wojna trwa dalej!";
-            ResolveWar(pile);
-        }
+
 
         UpdatePoints();
     }

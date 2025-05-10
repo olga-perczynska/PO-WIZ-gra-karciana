@@ -4,6 +4,8 @@ using PO_WIZ_gra_karciana.Models;
 using PO_WIZ_gra_karciana.Views;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 
 namespace PO_WIZ_gra_karciana.Views
 {
@@ -15,6 +17,7 @@ namespace PO_WIZ_gra_karciana.Views
         {
             InitializeComponent();
             HistoriaButton.Click += OtworzHistorieGier_Click;
+            WczytajHistorieZPliku();
         }
         private void OpenMemoryGame_Click(object? sender, RoutedEventArgs e)
         {
@@ -42,6 +45,27 @@ namespace PO_WIZ_gra_karciana.Views
         {
             var historiaWindow = new HistoriaWindow(historiaGier);
             historiaWindow.Show();
+        }
+        private readonly string historiaPlik = "historia.json";
+        protected override void OnClosing(WindowClosingEventArgs e)
+        {
+            base.OnClosing(e);
+            ZapiszHistorieDoPliku();
+        }
+
+        public void ZapiszHistorieDoPliku()
+        {
+            var json = JsonSerializer.Serialize(historiaGier, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(historiaPlik, json);
+        }
+
+        public void WczytajHistorieZPliku()
+        {
+            if (File.Exists(historiaPlik))
+            {
+                var json = File.ReadAllText(historiaPlik);
+                historiaGier = JsonSerializer.Deserialize<List<GraHistoryczna>>(json) ?? new List<GraHistoryczna>();
+            }
         }
 
         public void ZapiszHistorieGry(string gra, string wynik)

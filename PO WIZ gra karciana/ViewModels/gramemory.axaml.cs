@@ -84,7 +84,7 @@ namespace PO_WIZ_gra_karciana.Views
                         Height = 100,
                         Content = new TextBlock
                         {
-                            Text = "Wygrales!",
+                            Text = "Wygrałeś!",
                             HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
                             VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center
                         }
@@ -92,10 +92,13 @@ namespace PO_WIZ_gra_karciana.Views
                     dialog.ShowDialog(this);
                     await Task.Delay(2000);
                     dialog.Close();
+
+                    string wynik = $"Memory ukończone w {_moves} ruchach";
+                    _mainWindow?.ZapiszHistorieGry("Memory", wynik);
+
                     InitGame();
-                    string wyniko = "Wygrał gracz: Jacek";  
-                    _mainWindow?.ZapiszHistorieGry("Memory", wyniko);
                 }
+
             }
         }
     }

@@ -163,9 +163,11 @@ namespace PO_WIZ_gra_karciana.Views
             dialog.ShowDialog(this);
             await System.Threading.Tasks.Task.Delay(3000);
             dialog.Close();
-            InitGame();
-            string wyniko = "Wygral Jaco";
-            _mainWindow?.ZapiszHistorieGry("Piotruś", wyniko);
+
+            _mainWindow?.ZapiszHistorieGry("Piotruś", message);
+
+            InitGame(); 
         }
+
     }
 }
