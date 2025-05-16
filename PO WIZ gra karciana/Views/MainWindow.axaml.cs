@@ -38,7 +38,7 @@ namespace PO_WIZ_gra_karciana.Views
         }
         private void OpenGraWojnaClick(object? sender, RoutedEventArgs e)
         {
-            var graWojnaWindow = new GraWojna(); 
+            var graWojnaWindow = new GraWojna(this); 
             graWojnaWindow.Show();
         }
         private void OtworzHistorieGier_Click(object? sender, RoutedEventArgs e)

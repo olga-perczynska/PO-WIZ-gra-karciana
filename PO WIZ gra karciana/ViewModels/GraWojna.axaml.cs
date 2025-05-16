@@ -12,14 +12,12 @@ namespace PO_WIZ_gra_karciana;
 public partial class GraWojna : Window
 {
     private MainWindow _mainWindow;
-
     private Queue<string> _playerDeck = new();
     private Queue<string> _computerDeck = new();
-    private MainWindow? mainWindow;
     private readonly List<string> _allCards = new();
     private readonly Random _rng = new();
 
-    public GraWojna()
+    public GraWojna(MainWindow mainWindow)
     {
         InitializeComponent();
         _mainWindow = mainWindow;
@@ -65,6 +63,7 @@ public partial class GraWojna : Window
         {
             StatusText.Text = "💀 Gracz przegrał – komputer wygrał grę!";
             UpdatePoints();
+            _mainWindow?.ZapiszHistorieGry("Wojna", "Komputer wygrał");
             return;
         }
 
@@ -72,6 +71,7 @@ public partial class GraWojna : Window
         {
             StatusText.Text = "🎉 Gracz wygrał grę!";
             UpdatePoints();
+            _mainWindow?.ZapiszHistorieGry("Wojna", "Gracz wygrał");
             return;
         }
 
@@ -100,7 +100,7 @@ public partial class GraWojna : Window
         {
             StatusText.Text = $"⚔️ WOJNA! Obaj gracze zagrali {FormatCard(playerCard)}!";
             UpdatePoints();
-            await Task.Delay(800); 
+            await Task.Delay(800);
             ResolveWar(pile);
             return;
         }
@@ -116,6 +116,12 @@ public partial class GraWojna : Window
         {
             StatusText.Text = "😵 Ktoś nie miał kart do wojny – koniec gry!";
             UpdatePoints();
+
+            if (_playerDeck.Count == 0)
+                _mainWindow?.ZapiszHistorieGry("Wojna", "Komputer wygrał");
+            else
+                _mainWindow?.ZapiszHistorieGry("Wojna", "Gracz wygrał");
+
             return;
         }
 
@@ -132,7 +138,22 @@ public partial class GraWojna : Window
 
         int pVal = GetCardValue(finalP);
         int cVal = GetCardValue(finalC);
-        int zdobyte = pile.Count;
+
+        if (pVal > cVal)
+        {
+            StatusText.Text = $"🏆 Gracz wygrał WOJNĘ kartą {FormatCard(finalP)}!";
+            AddToWinner(_playerDeck, pile);
+        }
+        else if (pVal < cVal)
+        {
+            StatusText.Text = $"🤖 Komputer wygrał WOJNĘ kartą {FormatCard(finalC)}!";
+            AddToWinner(_computerDeck, pile);
+        }
+        else
+        {
+            StatusText.Text = $"😮 Kolejna wojna! Obie ostatnie karty to {FormatCard(finalP)}";
+            
+        }
 
         if (_playerDeck.Count == 0)
         {
@@ -149,7 +170,6 @@ public partial class GraWojna : Window
             _mainWindow?.ZapiszHistorieGry("Wojna", "Gracz wygrał");
             return;
         }
-
 
         UpdatePoints();
     }
@@ -181,8 +201,8 @@ public partial class GraWojna : Window
 
     private Bitmap LoadImage(string rawCard)
     {
-        string[] parts = rawCard.Split('_'); 
-        string fileName = $"{parts[1]}_of_{parts.Last()}.png"; 
+        string[] parts = rawCard.Split('_');
+        string fileName = $"{parts[1]}_of_{parts.Last()}.png";
         var uri = new Uri($"avares://PO_WIZ_gra_karciana/Assets/Karty/{fileName}");
         return new Bitmap(AssetLoader.Open(uri));
     }
@@ -190,8 +210,8 @@ public partial class GraWojna : Window
     private string FormatCard(string rawCard)
     {
         var parts = rawCard.Split('_');
-        string val = parts[1].ToUpper();   
-        string suit = parts.Last().ToUpper(); 
+        string val = parts[1].ToUpper();
+        string suit = parts.Last().ToUpper();
         return $"{val} of {suit}";
     }
 
